@@ -14,13 +14,14 @@ const manifest = require('./build/manifest.json')
 const { htmlTemplate } = require('./src/index.html.js')
 
 const App = require('./src/components/app/app').default
-const store = require('./src/store').default
+const storeFactory = require('./src/store').default
 
 const app = express()
 const port = 8080
 
 app.use('*/static', express.static(path.join(__dirname, 'build', 'static')))
 app.use((req, res) => {
+  const store = storeFactory()
   const appEntry = createElement(
       Provider, { store }, createElement(
         StaticRouter, { location: req.url, context: {} }, createElement(

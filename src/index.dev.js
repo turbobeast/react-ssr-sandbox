@@ -5,12 +5,12 @@ import { AppContainer } from 'react-hot-loader'
 import { BrowserRouter as Router, Route } from 'react-router-dom'
 
 import App from './components/app/app'
-import store from './store'
+import storeFactory from './store'
 
 const render = (Component) => {
   ReactDOM.render(
     <AppContainer>
-      <Provider store={store}>
+      <Provider store={storeFactory()}>
         <Router>
           <Route component={Component} />
         </Router>
