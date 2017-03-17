@@ -12,6 +12,7 @@ module.exports = {
     },
     "globals": {
       "fetch": true,
-      "document": true
+      "document": true,
+      "window": true,
     }
 };
