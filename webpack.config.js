@@ -8,7 +8,7 @@ module.exports = {
   entry: './src/index.js',
   output: {
     path: path.resolve(__dirname, 'build'),
-    filename: '[name].[chunkhash].js'
+    filename: '/static/[name].[chunkhash].js'
   },
   resolve: {
     extensions: ['.js']
@@ -24,7 +24,7 @@ module.exports = {
       }
     }),
     new ExtractTextPlugin({
-      filename: '[name].[chunkhash].css' 
+      filename: '/static/[name].[chunkhash].css' 
     }),
     new HtmlWebpackPlugin({
       template: './src/index.html'
