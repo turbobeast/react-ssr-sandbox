@@ -1,3 +1,4 @@
+import 'isomorphic-fetch'
 import {
   SET_SEARCH_TERM,
   GET_ROBOTS_IS_PENDING,
