@@ -19,7 +19,7 @@ const storeFactory = require('./src/store').default
 const app = express()
 const port = 8080
 
-function bootstrapReactApp (location, store) {
+function bootstrapReactApp(location, store) {
   const appEntry = createElement(
     Provider, { store }, createElement(
       StaticRouter, { location, context: {} }, createElement(
@@ -28,19 +28,20 @@ function bootstrapReactApp (location, store) {
   return renderToString(appEntry)
 }
 
-function handleSSRRequest (req, res) {
+function handleSSRRequest(req, res) {
   const store = storeFactory()
   const unsubscribe = store.subscribe(() => {
-    const state = store.getState();
+    const state = store.getState()
     if (!state.robotData.isPending) {
-      unsubscribe();
-      const renderedApp = bootstrapReactApp(req.url, store);
+      unsubscribe()
+      const renderedApp = bootstrapReactApp(req.url, store)
       const html = htmlTemplate({
         cssPath: manifest['main.css'],
         jsPath: manifest['main.js'],
         appHTML: renderedApp,
-      });
-      res.send(html);
+        state,
+      })
+      res.send(html)
     }
   })
 
