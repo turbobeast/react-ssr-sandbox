@@ -19,24 +19,37 @@ const storeFactory = require('./src/store').default
 const app = express()
 const port = 8080
 
-app.use('/static', express.static(path.join(__dirname, 'build', 'static')))
-app.use((req, res) => {
-  const store = storeFactory()
+function bootstrapReactApp (location, store) {
   const appEntry = createElement(
-      Provider, { store }, createElement(
-        StaticRouter, { location: req.url, context: {} }, createElement(
-          Route, { component: App })))
+    Provider, { store }, createElement(
+      StaticRouter, { location, context: {} }, createElement(
+        Route, { component: App })))
 
-  const renderedApp = renderToString(appEntry)
+  return renderToString(appEntry)
+}
 
-  const html = htmlTemplate({
-    cssPath: manifest['main.css'],
-    jsPath: manifest['main.js'],
-    appHTML: renderedApp,
+function handleSSRRequest (req, res) {
+  const store = storeFactory()
+  const unsubscribe = store.subscribe(() => {
+    const state = store.getState();
+    if (!state.robotData.isPending) {
+      unsubscribe();
+      const renderedApp = bootstrapReactApp(req.url, store);
+      const html = htmlTemplate({
+        cssPath: manifest['main.css'],
+        jsPath: manifest['main.js'],
+        appHTML: renderedApp,
+      });
+      res.send(html);
+    }
   })
 
-  res.send(html)
-})
+  bootstrapReactApp(req.url, store)
+  store.dispatch({ type: 'INIT_SSR' })
+}
+
+app.use('/static', express.static(path.join(__dirname, 'build', 'static')))
+app.use(handleSSRRequest)
 
 app.listen(port, () => {
   console.log(`app is listening on port ${port}`)
