@@ -2,6 +2,7 @@ const path = require('path')
 const webpack = require('webpack')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const sharedRules = require('./config/webpack-rules')
+const ExtractTextPlugin = require('extract-text-webpack-plugin')
 
 module.exports = {
   entry: [
@@ -26,16 +27,14 @@ module.exports = {
     historyApiFallback: true,
   },
 
-  module: {
-    rules: sharedRules.concat(
-      { 
-        test: /\.css$/,
-        use: [ 'style-loader', 'css-loader?modules' ],
-      }),
-  },
+   module: { rules: sharedRules },
+
   plugins: [
     new webpack.HotModuleReplacementPlugin(),
     new webpack.NamedModulesPlugin(),
+    new ExtractTextPlugin({
+      filename: 'bundle.css' 
+    }),
     new HtmlWebpackPlugin({
       template: './index.html'
     })

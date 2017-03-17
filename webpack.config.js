@@ -14,15 +14,7 @@ module.exports = {
     extensions: ['.js']
   },
   devtool: 'source-map',
-  module: {
-    rules: sharedRules.concat({
-      test: /\.css$/,
-      use: ExtractTextPlugin.extract({
-        fallback: 'style-loader',
-        use: 'css-loader?sourceMap'
-      }),
-    }),
-  },
+  module: { rules: sharedRules },
   plugins: [
     new webpack.optimize.UglifyJsPlugin({
       sourceMap: true,

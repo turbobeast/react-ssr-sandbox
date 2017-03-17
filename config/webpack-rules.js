@@ -1,3 +1,5 @@
+const ExtractTextPlugin = require('extract-text-webpack-plugin')
+
 const webpackSharedRules = [
   {
     test: /\.js$/,
@@ -14,6 +16,13 @@ const webpackSharedRules = [
     test: /.woff$/,
     use: [ 'url-loader' ],
   },
+  {
+    test: /\.css$/,
+    use: ExtractTextPlugin.extract({
+      fallback: 'style-loader',
+      use: 'css-loader?sourceMap',
+    }),
+  }
 ];
 
 module.exports = webpackSharedRules
