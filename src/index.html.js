@@ -1,4 +1,4 @@
-module.exports.htmlTemplate = ({ cssPath, jsPath }) => `
+module.exports.htmlTemplate = ({ cssPath, jsPath, appHTML }) => `
 <!doctype html>
 <html lang="en">
 <head>
@@ -9,7 +9,7 @@ module.exports.htmlTemplate = ({ cssPath, jsPath }) => `
   <title>react app</title>
 </head>
 <body>
-  <div id="root"></div>
+  <div id="root">${appHTML}</div>
   <script type="text/javascript" src="${jsPath}"></script>
 </body>
 </html>`
