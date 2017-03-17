@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import Profile from './profile'
+import './profile.css'
 
 class ProfileView extends Component {
   componentWillMount() {
