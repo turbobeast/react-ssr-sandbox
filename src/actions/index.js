@@ -12,7 +12,11 @@ export const setSearchTerm = term => ({
 })
 
 
-export const getRobots = () => (dispatch) => {
+export const getRobots = () => (dispatch, getState) => {
+  const state = getState()
+  if (state.robotData.robots.length >= 10) {
+    return
+  }
   dispatch({ type: GET_ROBOTS_IS_PENDING })
 
   fetch('https://jsonplaceholder.typicode.com/users')
