@@ -3,7 +3,7 @@ import { getRobots } from '../actions'
 import ProfileView from '../components/profile/profile-view'
 
 const mapStateToProps = (state, ownProps) => {
-  const id = ownProps.id || 1
+  const id = parseInt(ownProps.match.params.id, 10) || 1
   const isPending = state.robotData.isPending
   let robot = null
 
