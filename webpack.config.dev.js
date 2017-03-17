@@ -1,13 +1,14 @@
 const path = require('path')
 const webpack = require('webpack')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
+const sharedRules = require('./config/webpack-rules')
 
 module.exports = {
   entry: [
     'react-hot-loader/patch',
     'webpack-dev-server/client?http://localhost:8080',
     'webpack/hot/only-dev-server',
-    './hmr-entry.js'
+    './index.dev.js'
   ],
   output: {
     filename: 'bundle.js',
@@ -25,27 +26,11 @@ module.exports = {
   },
 
   module: {
-    rules: [
-       {
-        test: /\.js$/,
-        use: 'eslint-loader',
-        enforce: 'pre',
-        exclude: /node_modules/
-      },
-      {
-        test: /\.js$/,
-        use: ['babel-loader'],
-        exclude: /node_modules/
-      },
-      {
+    rules: sharedRules.concat(
+      { 
         test: /\.css$/,
-        use: [ 'style-loader', 'css-loader?modules' ]
-      },
-      {
-        test: /.woff$/,
-        use: [ 'url-loader' ]
-      }
-    ],
+        use: [ 'style-loader', 'css-loader?modules' ],
+      }),
   },
   plugins: [
     new webpack.HotModuleReplacementPlugin(),

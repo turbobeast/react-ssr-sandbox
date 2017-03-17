@@ -2,6 +2,7 @@ const path = require('path')
 const webpack = require('webpack')
 const ExtractTextPlugin = require('extract-text-webpack-plugin')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
+const sharedRules = require('./config/webpack-rules')
 
 module.exports = {
   entry: './src/index.js',
@@ -14,30 +15,13 @@ module.exports = {
   },
   devtool: 'source-map',
   module: {
-    rules: [
-      {
-        test: /\.js$/,
-        use: 'eslint-loader',
-        enforce: 'pre',
-        exclude: /node_modules/
-      },
-      {
-        exclude: /node_modules/,
-        test: /\.js$/,
-        use: 'babel-loader'
-      },
-      {
-        test: /\.css$/,
-        use: ExtractTextPlugin.extract({
-          fallback: 'style-loader',
-          use: 'css-loader?sourceMap'
-        }) 
-      },
-      {
-        test: /.woff$/,
-        use: [ 'url-loader' ]
-      }
-    ]
+    rules: sharedRules.concat({
+      test: /\.css$/,
+      use: ExtractTextPlugin.extract({
+        fallback: 'style-loader',
+        use: 'css-loader?sourceMap'
+      }),
+    }),
   },
   plugins: [
     new webpack.optimize.UglifyJsPlugin({
