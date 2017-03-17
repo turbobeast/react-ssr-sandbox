@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
 import Profile from './profile'
+import './profile.css'
 
 class ProfileView extends Component {
   componentWillMount() {
