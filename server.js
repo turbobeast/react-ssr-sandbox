@@ -18,6 +18,29 @@ const storeFactory = require('./src/store').default
 
 const app = express()
 const port = 8080
+const htmlCache = {}
+
+function makeCacheObject(html, expires = 60000) {
+  return {
+    html,
+    expires,
+    createdAt: Date.now(),
+  }
+}
+
+function isFresh(cacheObj) {
+  return (Date.now() - cacheObj.createdAt) < cacheObj.expires
+}
+
+function checkCache(req, res, next) {
+  const cachedObj = htmlCache[req.url]
+  if (cachedObj && isFresh(cachedObj)) {
+    res.send(cachedObj.html)
+    return
+  }
+
+  next()
+}
 
 function bootstrapReactApp(location, store) {
   const appEntry = createElement(
@@ -41,6 +64,7 @@ function handleSSRRequest(req, res) {
         appHTML: renderedApp,
         state,
       })
+      htmlCache[req.url] = makeCacheObject(html)
       res.send(html)
     }
   })
@@ -50,6 +74,7 @@ function handleSSRRequest(req, res) {
 }
 
 app.use('/static', express.static(path.join(__dirname, 'build', 'static')))
+app.use(checkCache)
 app.use(handleSSRRequest)
 
 app.listen(port, () => {
