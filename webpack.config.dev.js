@@ -27,7 +27,7 @@ module.exports = {
     historyApiFallback: true,
   },
 
-   module: { rules: sharedRules },
+  module: { rules: sharedRules },
 
   plugins: [
     new webpack.HotModuleReplacementPlugin(),
@@ -37,6 +37,11 @@ module.exports = {
     }),
     new HtmlWebpackPlugin({
       template: './index.html'
-    })
+    }),
+    new webpack.DefinePlugin({
+      "process.env": {
+        NODE_SERVER: false,
+      },
+    }),
   ],
 }
