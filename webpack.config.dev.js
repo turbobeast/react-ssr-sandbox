@@ -27,7 +27,7 @@ module.exports = {
     historyApiFallback: true,
   },
 
-   module: { rules: sharedRules },
+  module: { rules: sharedRules },
 
   plugins: [
     new webpack.HotModuleReplacementPlugin(),
