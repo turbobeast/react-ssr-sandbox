@@ -42,11 +42,12 @@ function checkCache(req, res, next) {
   next()
 }
 
-function bootstrapReactApp(location, store) {
+function bootstrapReactApp(location, store, agent) {
   const appEntry = createElement(
     Provider, { store }, createElement(
       StaticRouter, { location, context: {} }, createElement(
-        Route, { component: App })))
+        Route, {}, createElement(
+          App, { radiumConfig: { userAgent: agent } } ))))
 
   return renderToString(appEntry)
 }
@@ -57,7 +58,7 @@ function handleSSRRequest(req, res) {
     const state = store.getState()
     if (!state.robotData.isPending) {
       unsubscribe()
-      const renderedApp = bootstrapReactApp(req.url, store)
+      const renderedApp = bootstrapReactApp(req.url, store, req.headers['user-agent'])
       const chunks = [manifest['profile.js']]
 
       const html = htmlTemplate({
@@ -73,7 +74,7 @@ function handleSSRRequest(req, res) {
     }
   })
 
-  bootstrapReactApp(req.url, store)
+  bootstrapReactApp(req.url, store, req.headers['user-agent'])
   store.dispatch({ type: 'INIT_SSR' })
 }
 
