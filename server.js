@@ -58,11 +58,15 @@ function handleSSRRequest(req, res) {
     if (!state.robotData.isPending) {
       unsubscribe()
       const renderedApp = bootstrapReactApp(req.url, store)
+      const chunks = [manifest['profile.js']]
+
       const html = htmlTemplate({
         cssPath: manifest['main.css'],
         jsPath: manifest['main.js'],
+        vendorPath: manifest['vendor.js'],
         appHTML: renderedApp,
         state,
+        chunks,
       })
       htmlCache[req.url] = makeCacheObject(html)
       res.send(html)
