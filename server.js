@@ -58,9 +58,11 @@ function handleSSRRequest(req, res) {
     if (!state.robotData.isPending) {
       unsubscribe()
       const renderedApp = bootstrapReactApp(req.url, store)
+      const chunks = [manifest['profile.js']]
       const html = htmlTemplate({
         cssPath: manifest['main.css'],
         jsPath: manifest['main.js'],
+        preloadChunks: chunks,
         appHTML: renderedApp,
         state,
       })

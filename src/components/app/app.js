@@ -7,7 +7,7 @@ import RobotFilterViewContainer from '../../containers/robot-filter-view.contain
 /* eslint-disable */
 const profileLoader = process.env.NODE_SERVER
   ? (fn) => fn(require('../../containers/robot-profile-view.container'))
-  : require('bundle-loader?lazy!../../containers/robot-profile-view.container')
+  : require('bundle-loader?lazy&name=profile!../../containers/robot-profile-view.container')
 /* eslint-enable */
 
 function App() {
