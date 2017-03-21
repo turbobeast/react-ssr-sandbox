@@ -30,6 +30,11 @@ module.exports = {
     new HtmlWebpackPlugin({
       template: './src/index.html'
     }),
-    new ManifestPlugin()
+    new ManifestPlugin(),
+    new webpack.DefinePlugin({
+      "process.env": {
+        NODE_SERVER: false
+      }
+    }),
   ]
 }
