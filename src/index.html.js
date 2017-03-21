@@ -1,4 +1,4 @@
-module.exports.htmlTemplate = ({ cssPath, jsPath, appHTML, state }) => `
+module.exports.htmlTemplate = ({ cssPath, jsPath, preloadChunks, appHTML, state }) => `
 <!doctype html>
 <html lang="en">
 <head>
@@ -6,6 +6,7 @@ module.exports.htmlTemplate = ({ cssPath, jsPath, appHTML, state }) => `
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="https://unpkg.com/tachyons/css/tachyons.min.css">
   <link href="${cssPath}" rel="stylesheet">
+  ${preloadChunks.map(src => `<link rel="preload" as="script" href="${src}" />`)}
   <title>react app</title>
 </head>
 <body>
