@@ -1,6 +1,8 @@
 import React, { Component } from 'react'
+import { Link } from 'react-router-dom'
+import Radium from 'radium'
 import Profile from './profile'
-import './profile.css'
+import { profilePage, button } from './profile.css'
 
 class ProfileView extends Component {
   componentWillMount() {
@@ -10,12 +12,13 @@ class ProfileView extends Component {
   render() {
     const { isPending, robot } = this.props
     return (
-      <div className="profilePage">
+      <div style={profilePage}>
         {
           isPending
           ? <h2>Loading... </h2>
           : <Profile robot={robot} />
         }
+        <Link style={button} to="/">Back</Link>
       </div>
     )
   }
@@ -31,4 +34,4 @@ ProfileView.propTypes = {
   getRobots: React.PropTypes.func.isRequired,
 }
 
-export default ProfileView
+export default Radium(ProfileView)
