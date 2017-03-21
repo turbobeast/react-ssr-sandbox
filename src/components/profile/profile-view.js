@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import { Link } from 'react-router-dom'
 import Profile from './profile'
 import './profile.css'
 
@@ -16,6 +17,7 @@ class ProfileView extends Component {
           ? <h2>Loading... </h2>
           : <Profile robot={robot} />
         }
+        <Link className="button" to="/">Back</Link>
       </div>
     )
   }
