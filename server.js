@@ -64,6 +64,7 @@ function handleSSRRequest(req, res) {
       const html = htmlTemplate({
         cssPath: manifest['main.css'],
         jsPath: manifest['main.js'],
+        vendorPath: manifest['vendor.js'],
         preloadChunks: chunks,
         appHTML: renderedApp,
         state,

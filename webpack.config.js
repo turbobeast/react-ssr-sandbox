@@ -6,7 +6,10 @@ const sharedRules = require('./config/webpack-rules')
 const ManifestPlugin = require('webpack-manifest-plugin')
 
 module.exports = {
-  entry: './src/index.js',
+  entry: {
+    main: './src/index.js',
+    vendor: './src/vendor.js',
+  },
   output: {
     path: path.resolve(__dirname, 'build'),
     filename: '/static/[name].[chunkhash].js'
@@ -27,14 +30,15 @@ module.exports = {
     new ExtractTextPlugin({
       filename: '/static/[name].[chunkhash].css' 
     }),
-    new HtmlWebpackPlugin({
-      template: './src/index.html'
-    }),
     new ManifestPlugin(),
     new webpack.DefinePlugin({
       "process.env": {
         NODE_SERVER: false
       }
+    }),
+    new webpack.optimize.CommonsChunkPlugin({
+      name: 'vendor',
+      filename: '/static/vendor.[chunkhash].js',
     }),
   ]
 }

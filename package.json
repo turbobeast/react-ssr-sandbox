@@ -25,7 +25,7 @@
   "scripts": {
     "dev": "webpack-dev-server --config webpack.config.dev.js",
     "lint": "eslint --fix src/ server.js",
-    "build": "rimraf build/ && webpack -p",
+    "build": "rimraf build/ && webpack -p --display-chunks",
     "start": "NODE_SERVER=true && node server"
   },
   "dependencies": {

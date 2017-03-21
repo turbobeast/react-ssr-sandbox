@@ -1,4 +1,4 @@
-module.exports.htmlTemplate = ({ cssPath, jsPath, preloadChunks, appHTML, state }) => `
+module.exports.htmlTemplate = ({ cssPath, jsPath, vendorPath, preloadChunks, appHTML, state }) => `
 <!doctype html>
 <html lang="en">
 <head>
@@ -14,6 +14,7 @@ module.exports.htmlTemplate = ({ cssPath, jsPath, preloadChunks, appHTML, state 
   <script>
     window.INITIAL_STATE = ${JSON.stringify(state).replace(/</g, '\\u003c')}
   </script>
+  <script type="text/javascript" src="${vendorPath}"></script>
   <script type="text/javascript" src="${jsPath}"></script>
 </body>
 </html>`
