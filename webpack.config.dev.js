@@ -38,6 +38,10 @@ module.exports = {
     new HtmlWebpackPlugin({
       template: './index.html'
     }),
-   
+    new webpack.DefinePlugin({
+      "process.env": {
+        NODE_SERVER: false
+      }
+    }),
   ],
 }

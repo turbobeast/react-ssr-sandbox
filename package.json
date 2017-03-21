@@ -23,9 +23,10 @@
     "webpack-dev-server": "^2.4.2"
   },
   "scripts": {
+    "dev": "webpack-dev-server --config webpack.config.dev.js",
     "lint": "eslint --fix src/ server.js",
     "build": "rimraf build/ && webpack -p",
-    "start": "webpack-dev-server --config webpack.config.dev.js"
+    "start": "NODE_SERVER=true && node server"
   },
   "dependencies": {
     "babel-preset-es2015": "^6.24.0",
