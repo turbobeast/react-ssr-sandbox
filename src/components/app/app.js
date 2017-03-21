@@ -1,5 +1,6 @@
 import React from 'react'
 import { Route, Switch, Redirect } from 'react-router-dom'
+import Radium from 'radium'
 import './app.css'
 import Lazy from '../lazy'
 import RobotFilterViewContainer from '../../containers/robot-filter-view.container'
@@ -26,4 +27,4 @@ function App() {
   )
 }
 
-export default App
+export default Radium(App)
