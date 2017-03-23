@@ -5,6 +5,7 @@ require('babel-register')({
 require('ignore-styles')
 
 const express = require('express')
+const compression = require('compression')
 const path = require('path')
 const { createElement } = require('react')
 const { StaticRouter, Route } = require('react-router')
@@ -77,7 +78,10 @@ function handleSSRRequest(req, res) {
   store.dispatch({ type: 'INIT_SSR' })
 }
 
-app.use('/static', express.static(path.join(__dirname, 'build', 'static')))
+app.use(compression())
+app.use('/static', express.static(path.join(__dirname, 'build', 'static'), {
+  maxAge: '1y',
+}))
 app.use(checkCache)
 app.use(handleSSRRequest)
 
