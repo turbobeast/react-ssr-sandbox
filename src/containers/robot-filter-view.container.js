@@ -1,5 +1,5 @@
 import { connect } from 'react-redux'
-import { setSearchTerm, getRobots } from '../actions'
+import { setSearchTerm } from '../actions'
 import CardFilterView from '../components/card-filter-view'
 
 const mapStateToProps = (state) => {
@@ -16,7 +16,6 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = dispatch => ({
   onSearchChange: evt => dispatch(setSearchTerm(evt.target.value)),
-  getRobots: () => { dispatch(getRobots()) },
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(CardFilterView)

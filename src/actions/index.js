@@ -10,11 +10,10 @@ export const setSearchTerm = term => ({
   payload: term,
 })
 
-
-export const getRobots = () => (dispatch) => {
+export const getRobots = api => (dispatch) => {
   dispatch({ type: GET_ROBOTS_IS_PENDING })
 
-  fetch('https://jsonplaceholder.typicode.com/users')
+  fetch(api)
       .then(response => response.json())
       .then((data) => {
         dispatch({
@@ -28,4 +27,11 @@ export const getRobots = () => (dispatch) => {
           payload: error,
         })
       })
+}
+
+export const handleNavigation = action => (dispatch) => {
+  const API_BASE = 'https://jsonplaceholder.typicode.com/users'
+  const url = action.payload.url
+  const request_url = `${API_BASE}${url.replace('profile/', '')}`
+  getRobots(request_url)(dispatch)
 }

@@ -1,5 +1,4 @@
 import { connect } from 'react-redux'
-import { getRobots } from '../actions'
 import ProfileView from '../components/profile/profile-view'
 
 const mapStateToProps = (state, ownProps) => {
@@ -17,8 +16,4 @@ const mapStateToProps = (state, ownProps) => {
   }
 }
 
-const mapDispatchToProps = dispatch => ({
-  getRobots: () => dispatch(getRobots()),
-})
-
-export default connect(mapStateToProps, mapDispatchToProps)(ProfileView)
+export default connect(mapStateToProps)(ProfileView)
