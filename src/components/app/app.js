@@ -10,8 +10,6 @@ const loadProfile = process.env.NODE_SERVER
     cb(require('../../containers/robot-profile-view.container'))
   }, 'profile')
 
-// import('../../containers/robot-profile-view.container')
-
 function App() {
   return (
     <div className="tc">
@@ -22,7 +20,6 @@ function App() {
           path="/profile/:id"
           render={props => <Lazy {...props} load={loadProfile} />}
         />
-        {/* <Route path="/profile/:id" component={RobotProfileViewContainer} />*/}
         <Route render={() => <Redirect to={{ pathname: '/' }} />} />
       </Switch>
     </div>
