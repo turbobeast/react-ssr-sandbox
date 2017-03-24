@@ -29,9 +29,21 @@ export const getRobots = api => (dispatch) => {
       })
 }
 
-export const handleNavigation = action => (dispatch) => {
+export const handleNavigation = action => (dispatch, getState) => {
   const API_BASE = 'https://jsonplaceholder.typicode.com/users'
   const url = action.payload.url
   const request_url = `${API_BASE}${url.replace('profile/', '')}`
-  getRobots(request_url)(dispatch)
+
+  const robots = getState().robotData.robots
+  if (/profile/.test(url)) {
+    const robotId = parseInt(url.replace('/profile/', ''), 10)
+    if (robots.find(rob => rob.id === robotId)) {
+      return
+    }
+  }
+
+  if (robots.length >= 10) {
+    return
+  }
+  setTimeout(() => getRobots(request_url)(dispatch), 1)
 }

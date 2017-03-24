@@ -28,7 +28,7 @@ const robotReducer = (state = robotInitialState, action = {}) => {
       return Object.assign({}, state, { isPending: true })
     case GET_ROBOTS_WAS_SUCCESSFUl:
       return Object.assign({}, state, {
-        robots: state.robots.concat(action.payload),
+        robots: [].concat(action.payload),
         isPending: false,
       })
     case GET_ROBOTS_HAD_ERROR:
