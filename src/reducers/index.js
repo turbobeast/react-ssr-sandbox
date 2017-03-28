@@ -18,7 +18,7 @@ const searchReducer = (state = searchInitialState, action = {}) => {
 
 const robotInitialState = {
   robots: [],
-  isPending: true,
+  isPending: false,
   error: '',
 }
 const robotReducer = (state = robotInitialState, action = {}) => {

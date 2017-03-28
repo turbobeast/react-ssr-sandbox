@@ -12,9 +12,9 @@ class ProfileView extends Component {
     return (
       <div className="profilePage">
         {
-          isPending
-          ? <h2>Loading... </h2>
-          : <Profile robot={robot} />
+          (!isPending && robot)
+          ? <Profile robot={robot} />
+          : <h2>Loading... </h2>
         }
       </div>
     )
