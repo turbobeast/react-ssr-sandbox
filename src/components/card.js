@@ -1,13 +1,16 @@
 import React from 'react'
+import { Link } from 'react-router-dom'
 
 const Card = ({ id, name, email }) => (
-  <div className="grow bg-light-green br3 pa3 ma2 dib">
-    <img alt={name} src={`//robohash.org/${id}?size=200x200`} />
-    <div>
-      <h2>{name}</h2>
-      <p>{email}</p>
+  <Link to={`/profile/${id}`}>
+    <div className="grow bg-light-green br3 pa3 ma2 dib">
+      <img alt={name} src={`//robohash.org/${id}?size=200x200`} />
+      <div>
+        <h2>{name}</h2>
+        <p>{email}</p>
+      </div>
     </div>
-  </div>
+  </Link>
   )
 
 Card.propTypes = {
