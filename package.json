@@ -30,7 +30,7 @@
     "build": "rimraf build/ && webpack -p",
     "dev": "webpack-dev-server --config webpack.config.dev.js",
     "lint": "eslint --fix src/ server.js",
-    "start": "node server"
+    "start": "export NODE_ENV=production NODE_SERVER=true && node server"
   },
   "dependencies": {
     "babel-core": "^6.24.0",
@@ -41,6 +41,7 @@
     "express": "^4.15.2",
     "ignore-styles": "^5.0.1",
     "isomorphic-fetch": "^2.2.1",
+    "radium": "^0.18.2",
     "react": "^15.4.2",
     "react-dom": "^15.4.2",
     "react-hot-loader": "3.0.0-beta.6",

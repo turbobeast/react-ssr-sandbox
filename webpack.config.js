@@ -28,5 +28,10 @@ module.exports = {
       filename: '/static/[name].[chunkhash].css' 
     }),
     new ManifestPlugin(),
+    new webpack.DefinePlugin({
+      "process.env": {
+        NODE_SERVER: false
+      }
+    })
   ]
 }

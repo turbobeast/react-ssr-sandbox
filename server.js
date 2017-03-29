@@ -4,7 +4,7 @@ require('babel-register')({
 })
 require('ignore-styles')
 const express = require('express')
-const { createElement } = require('react')
+const { createElement } = require('react/dist/react.min')
 const { StaticRouter } = require('react-router')
 const { Provider } = require('react-redux')
 const { renderToString } = require('react-dom/server')
@@ -17,7 +17,7 @@ const storeFactory = require('./src/store').default
 const app = express()
 const htmlCache = {}
 
-function makeCacheObject (html, expires = 3600000) {
+function makeCacheObject(html, expires = 3600000) {
   return {
     html,
     expires,
@@ -25,17 +25,16 @@ function makeCacheObject (html, expires = 3600000) {
   }
 }
 
-function isFresh (cacheObj) {
+function isFresh(cacheObj) {
   return (Date.now() - cacheObj.createdAt) < cacheObj.expires
 }
 
-function bootstrapApp(location, store) {
+function bootstrapApp(location, store, agent) {
   const context = {}
   const appEntry = createElement(
     Provider, { store }, createElement(
       StaticRouter, { location, context }, createElement(
-        App)))
-
+        App, { radiumConfig: { userAgent: agent } })))
   const appHTML = renderToString(appEntry)
   return { appHTML, context }
 }
@@ -49,16 +48,17 @@ function checkCache(request, response, next) {
   next()
 }
 
-function handleSSRRequest (request, response) {
+function handleSSRRequest(request, response) {
   const store = storeFactory()
   const unsubscribe = store.subscribe(() => {
     const state = store.getState()
     if (!state.robotData.isPending) {
       unsubscribe()
-      const { appHTML } = bootstrapApp(request.url, store)
+      const { appHTML } = bootstrapApp(request.url, store, request.headers['user-agent'])
       const htmlResponse = htmlTemplate({
         jsPath: manifest['main.js'],
         cssPath: manifest['main.css'],
+        preloadChunks: [manifest['profile.js']],
         appHTML,
         state,
       })
@@ -67,7 +67,7 @@ function handleSSRRequest (request, response) {
     }
   })
 
-  const { context } = bootstrapApp(request.url, store)
+  const { context } = bootstrapApp(request.url, store, request.headers['user-agent'])
   if (context.url) {
     response.redirect(context.url)
     unsubscribe()
