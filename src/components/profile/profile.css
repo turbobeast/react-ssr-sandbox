@@ -69,3 +69,11 @@
   text-decoration:none;
   margin:20px 0px;
 }
+
+.back {
+  display: inline-block;
+  text-decoration: none;
+  color: #9eebcf;
+  font-weight: 700;
+  margin-bottom: 12px;
+}
