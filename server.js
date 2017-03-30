@@ -4,7 +4,8 @@ require('babel-register')({
 })
 require('ignore-styles')
 const express = require('express')
-const { createElement } = require('react/dist/react.min')
+const LRU = require('lru-cache')
+const { createElement } = require('react')
 const { StaticRouter } = require('react-router')
 const { Provider } = require('react-redux')
 const { renderToString } = require('react-dom/server')
@@ -15,19 +16,10 @@ const App = require('./src/components/app/app').default
 const storeFactory = require('./src/store').default
 
 const app = express()
-const htmlCache = {}
-
-function makeCacheObject(html, expires = 3600000) {
-  return {
-    html,
-    expires,
-    createdAt: Date.now(),
-  }
-}
-
-function isFresh(cacheObj) {
-  return (Date.now() - cacheObj.createdAt) < cacheObj.expires
-}
+const cache = LRU({
+  max: 11,
+  maxAge: 3600000,
+})
 
 function bootstrapApp(location, store, agent) {
   const context = {}
@@ -40,8 +32,8 @@ function bootstrapApp(location, store, agent) {
 }
 
 function checkCache(request, response, next) {
-  if (htmlCache[request.url] && isFresh(htmlCache[request.url])) {
-    response.send(htmlCache[request.url].html)
+  if (cache.has(request.url)) {
+    response.send(cache.get(request.url))
     return
   }
 
@@ -63,7 +55,7 @@ function handleSSRRequest(request, response) {
         state,
       })
       response.send(htmlResponse)
-      htmlCache[request.url] = makeCacheObject(htmlResponse)
+      cache.set(request.url, htmlResponse)
     }
   })
 
