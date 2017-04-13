@@ -4,11 +4,13 @@ import './app.css'
 import Lazy from '../lazy'
 import RobotFilterViewContainer from '../../containers/robot-filter-view.container'
 
-const loadProfile = process.env.NODE_SERVER
+const profileLoader = process.env.NODE_SERVER
   ? cb => cb(require('../../containers/robot-profile-view.container'))
   : cb => require.ensure([], (require) => {
     cb(require('../../containers/robot-profile-view.container'))
   }, 'profile')
+
+const LazyProfile = Lazy(profileLoader)
 
 function App() {
   return (
@@ -16,10 +18,7 @@ function App() {
       <h1>RoboDex</h1>
       <Switch>
         <Route path="/" exact component={RobotFilterViewContainer} />
-        <Route
-          path="/profile/:id"
-          render={props => <Lazy {...props} load={loadProfile} />}
-        />
+        <Route path="/profile/:id" component={LazyProfile} />
         <Route render={() => <Redirect to={{ pathname: '/' }} />} />
       </Switch>
     </div>

@@ -24,4 +24,4 @@ Lazy.propTypes = {
   load: React.PropTypes.func.isRequired,
 }
 
-export default Lazy
+export default load => props => <Lazy load={load} {...props} />
