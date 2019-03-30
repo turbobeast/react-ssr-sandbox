@@ -2,6 +2,7 @@ const path = require('path')
 const webpack = require('webpack')
 const ExtractTextPlugin = require('extract-text-webpack-plugin')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
+const ManifestPlugin = require('webpack-manifest-plugin')
 const sharedRules = require('./config/webpack-rules')
 
 module.exports = {
@@ -26,8 +27,11 @@ module.exports = {
     new ExtractTextPlugin({
       filename: '/static/[name].[chunkhash].css' 
     }),
-    new HtmlWebpackPlugin({
-      template: './src/index.html'
+    new ManifestPlugin(),
+    new webpack.DefinePlugin({
+      "process.env": {
+        NODE_SERVER: false
+      }
     })
   ]
 }

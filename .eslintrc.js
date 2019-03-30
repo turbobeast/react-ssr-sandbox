@@ -13,7 +13,8 @@ module.exports = {
       "semi": ["error", "never"],
       "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }],
       "react/forbid-prop-types": [1, { "forbid": ["any"] }],
-      "camelcase": [0, "never"]
+      "camelcase": [0, "never"],
+      "global-require": [0],
     },
     "globals": {
       "fetch": true,
